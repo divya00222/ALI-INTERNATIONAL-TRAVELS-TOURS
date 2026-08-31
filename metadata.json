@@ -1,0 +1,6 @@
+{
+  "name": "ALI INTERNATIONAL TRAVELS & TOURS",
+  "description": "Premium travel agency and digital service center in Rajbiraj, Saptari, Nepal. Offering passport, visa, ticketing, and online public digital services assistance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
