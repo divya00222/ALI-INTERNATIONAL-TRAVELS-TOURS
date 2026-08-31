@@ -37,6 +37,15 @@
   <!-- Custom Stylesheet (Pure CSS3) -->
   <link rel="stylesheet" href="./css/style.css">
 
+  <!-- Noscript Safe Fallback -->
+  <noscript>
+    <style>
+      #pageLoader, .page-loader { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      body { overflow: auto !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
+
   <!-- Local Business Structured Data (JSON-LD) -->
   <script type="application/ld+json">
   {
@@ -1477,6 +1486,6 @@
   </button>
 
   <!-- Vanilla JavaScript -->
-  <script src="./js/script.js"></script>
+  <script src="./js/script.js" defer></script>
 </body>
 </html>
