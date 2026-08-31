@@ -21,27 +21,40 @@
     isPageRevealed = true;
 
     try {
-      document.documentElement.classList.add('page-ready');
+      document.documentElement.classList.remove('loading');
+      document.documentElement.classList.add('page-ready', 'loaded');
+
       if (document.body) {
-        document.body.classList.add('page-ready');
+        document.body.classList.remove('loading');
+        document.body.classList.add('page-ready', 'loaded');
+        document.body.style.overflow = '';
       }
 
-      const pageLoader = document.getElementById('pageLoader');
-      if (pageLoader) {
-        pageLoader.classList.add('hidden');
-        pageLoader.setAttribute('aria-hidden', 'true');
-        setTimeout(function () {
-          pageLoader.style.display = 'none';
-        }, 400);
-      }
+      const loaders = document.querySelectorAll('#pageLoader, .page-loader, .loader');
+      loaders.forEach(function (loader) {
+        if (loader) {
+          loader.classList.add('hidden', 'loaded');
+          loader.setAttribute('aria-hidden', 'true');
+          setTimeout(function () {
+            try {
+              loader.style.display = 'none';
+            } catch (err) {}
+          }, 350);
+        }
+      });
     } catch (e) {
-      console.warn('[Ali Travels] Reveal fallback triggered:', e);
+      console.warn('[Ali Travels] Reveal fallback error:', e);
     }
   }
 
-  // Safety fallback timers: guarantee page is revealed even if assets hang
-  setTimeout(revealPage, 500);
+  // Multi-tier safety reveal triggers
+  if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    revealPage();
+  } else {
+    document.addEventListener('DOMContentLoaded', revealPage);
+  }
   window.addEventListener('load', revealPage);
+  setTimeout(revealPage, 600);
 
   /**
    * Helper for error-isolated initialization

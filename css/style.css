@@ -2399,7 +2399,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Page Loader (Minimalist & Elegant) */
-.page-loader {
+.page-loader,
+#pageLoader,
+.loader {
   position: fixed;
   inset: 0;
   background: var(--primary-dark);
@@ -2409,20 +2411,36 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
   pointer-events: auto;
 }
 
 .page-ready .page-loader,
-.page-loader.hidden {
+.page-ready #pageLoader,
+.page-ready .loader,
+.loaded .page-loader,
+.loaded #pageLoader,
+.loaded .loader,
+.page-loader.hidden,
+#pageLoader.hidden,
+.loader.hidden,
+.page-loader.loaded,
+#pageLoader.loaded,
+.loader.loaded,
+.page-ready [class*="loader"],
+.loaded [class*="loader"] {
   opacity: 0 !important;
   visibility: hidden !important;
   pointer-events: none !important;
 }
 
 .page-ready body,
-body.page-ready {
-  overflow: auto;
+body.page-ready,
+.loaded body,
+body.loaded,
+html.page-ready,
+html.loaded {
+  overflow: auto !important;
 }
 
 .loader-spinner {
