@@ -39,7 +39,7 @@
             try {
               loader.style.display = 'none';
             } catch (err) {}
-          }, 350);
+          }, 300);
         }
       });
     } catch (e) {
@@ -47,14 +47,14 @@
     }
   }
 
-  // Multi-tier safety reveal triggers
+  // Safety fallback timers: guarantee page is revealed even if assets hang
   if (document.readyState === 'interactive' || document.readyState === 'complete') {
     revealPage();
   } else {
     document.addEventListener('DOMContentLoaded', revealPage);
   }
   window.addEventListener('load', revealPage);
-  setTimeout(revealPage, 600);
+  setTimeout(revealPage, 500);
 
   /**
    * Helper for error-isolated initialization
@@ -203,6 +203,7 @@
     if (!revealElements.length) return;
 
     if ('IntersectionObserver' in window) {
+      document.documentElement.classList.add('js-ready');
       const revealObserver = new IntersectionObserver(function (entries, observer) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
@@ -212,11 +213,15 @@
         });
       }, {
         root: null,
-        threshold: 0.08,
+        threshold: 0.05,
         rootMargin: '0px 0px -20px 0px'
       });
 
       revealElements.forEach(function (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          el.classList.add('revealed');
+        }
         revealObserver.observe(el);
       });
     } else {

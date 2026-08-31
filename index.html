@@ -46,33 +46,6 @@
     </style>
   </noscript>
 
-  <!-- Inline Fail-Safe Page Reveal (Zero Delay, 100% Vercel & Static Compatibility) -->
-  <script>
-    (function(){
-      function safeReveal(){
-        try {
-          document.documentElement.classList.add('page-ready', 'loaded');
-          if(document.body) {
-            document.body.classList.add('page-ready', 'loaded');
-            document.body.style.overflow = '';
-          }
-          var l = document.getElementById('pageLoader');
-          if(l) {
-            l.classList.add('hidden', 'loaded');
-            l.setAttribute('aria-hidden', 'true');
-          }
-        } catch(e){}
-      }
-      if(document.readyState === 'interactive' || document.readyState === 'complete'){
-        safeReveal();
-      } else {
-        document.addEventListener('DOMContentLoaded', safeReveal);
-      }
-      window.addEventListener('load', safeReveal);
-      setTimeout(safeReveal, 800);
-    })();
-  </script>
-
   <!-- Local Business Structured Data (JSON-LD) -->
   <script type="application/ld+json">
   {
