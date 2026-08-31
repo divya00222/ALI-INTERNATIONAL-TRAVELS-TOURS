@@ -40,9 +40,8 @@
   <!-- Noscript Safe Fallback -->
   <noscript>
     <style>
-      #pageLoader, .page-loader, .loader { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
       body, html { overflow: auto !important; }
-      .reveal { opacity: 1 !important; transform: none !important; }
+      .reveal { opacity: 1 !important; visibility: visible !important; transform: none !important; }
     </style>
   </noscript>
 
@@ -73,12 +72,6 @@
 
   <!-- Accessible Skip Link -->
   <a href="#mainContent" class="skip-link">Skip to main content</a>
-
-  <!-- Page Loader -->
-  <div id="pageLoader" class="page-loader" aria-hidden="true">
-    <div class="loader-spinner"></div>
-    <div class="loader-brand">ALI INTERNATIONAL</div>
-  </div>
 
   <!-- Header / Navigation Bar -->
   <header id="siteHeader" class="site-header">

@@ -9,53 +9,6 @@
 (function () {
   'use strict';
 
-  // State flag for idempotent page reveal
-  let isPageRevealed = false;
-
-  /**
-   * 1. Safe Page Reveal Function
-   * Must be idempotent and safe to call from multiple lifecycle triggers
-   */
-  function revealPage() {
-    if (isPageRevealed) return;
-    isPageRevealed = true;
-
-    try {
-      document.documentElement.classList.remove('loading');
-      document.documentElement.classList.add('page-ready', 'loaded');
-
-      if (document.body) {
-        document.body.classList.remove('loading');
-        document.body.classList.add('page-ready', 'loaded');
-        document.body.style.overflow = '';
-      }
-
-      const loaders = document.querySelectorAll('#pageLoader, .page-loader, .loader');
-      loaders.forEach(function (loader) {
-        if (loader) {
-          loader.classList.add('hidden', 'loaded');
-          loader.setAttribute('aria-hidden', 'true');
-          setTimeout(function () {
-            try {
-              loader.style.display = 'none';
-            } catch (err) {}
-          }, 300);
-        }
-      });
-    } catch (e) {
-      console.warn('[Ali Travels] Reveal fallback error:', e);
-    }
-  }
-
-  // Safety fallback timers: guarantee page is revealed even if assets hang
-  if (document.readyState === 'interactive' || document.readyState === 'complete') {
-    revealPage();
-  } else {
-    document.addEventListener('DOMContentLoaded', revealPage);
-  }
-  window.addEventListener('load', revealPage);
-  setTimeout(revealPage, 500);
-
   /**
    * Helper for error-isolated initialization
    */
@@ -196,39 +149,15 @@
   }
 
   /**
-   * 5. Scroll Reveal Animations (IntersectionObserver with fallback)
+   * 5. Scroll Reveal Animations (Safe, Non-blocking)
    */
   function initScrollReveal() {
     const revealElements = document.querySelectorAll('.reveal');
     if (!revealElements.length) return;
 
-    if ('IntersectionObserver' in window) {
-      document.documentElement.classList.add('js-ready');
-      const revealObserver = new IntersectionObserver(function (entries, observer) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, {
-        root: null,
-        threshold: 0.05,
-        rootMargin: '0px 0px -20px 0px'
-      });
-
-      revealElements.forEach(function (el) {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          el.classList.add('revealed');
-        }
-        revealObserver.observe(el);
-      });
-    } else {
-      revealElements.forEach(function (el) {
-        el.classList.add('revealed');
-      });
-    }
+    revealElements.forEach(function (el) {
+      el.classList.add('revealed');
+    });
   }
 
   /**
@@ -887,9 +816,6 @@
     safeInit(initFaqAccordion, 'FaqAccordion');
     safeInit(initContactForm, 'ContactForm');
     safeInit(initSmoothScroll, 'SmoothScroll');
-
-    // Reveal page immediately upon DOM ready and component initialization
-    revealPage();
   }
 
   // Execute on DOMContentLoaded or immediately if DOM is already ready
